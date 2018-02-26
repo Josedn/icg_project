@@ -182,6 +182,75 @@ void woodyLowerHalf() {
 
 }
 
+void setHexColor(int color) {
+  float r = ((0xFF0000 & color) >> 16) / 255.0;
+  float g = ((0x00FF00 & color) >> 8) / 255.0;
+  float b = (0x0000FF & color) / 255.0;
+  glColor3f(r, g, b);
+}
+
+void rightArm(int x, int y) {
+  glBegin (GL_POLYGON);
+  glVertex2i(x + 150, y + 150);
+  glVertex2i(x + 200, y + 150);
+  glVertex2i(x + 200, y + 200);
+  glEnd();
+}
+
+void woodyUpperHalf() {
+  int midHeight = HEIGHT / 2;
+
+  //Top
+  setHexColor(0xE8AA0C);
+  glRecti(150, midHeight, 250, midHeight + 120);
+
+  //Vest
+  setHexColor(0xBBBBBB);
+  glRecti(150, midHeight + 20, 150 + 40, midHeight + 100 - 15);
+  glRecti(250, midHeight + 20, 250 - 40, midHeight + 100 - 15);
+
+  glRecti(150 + 5, midHeight + 100 - 15, 250 - 5, midHeight + 100 + 20);
+  //glRecti(250, midHeight + 20, 250 - 40, midHeight + 100 - 15);
+
+
+  //Arms
+  setHexColor(0xE8AA0C);
+  glRecti(150, midHeight + 120, 150 - 120, midHeight + 120 - 30);
+  glRecti(250, midHeight + 120, 250 + 120, midHeight + 120 - 30);
+
+  //'Hands'
+  setHexColor(0xFFD3B6);
+  drawFilledCircle(150 - 120, midHeight + 120 - 30 + 15, 15);
+  drawFilledCircle(250 + 120, midHeight + 120 - 30 + 15, 15);
+
+  //Neck : Red thing
+  setHexColor(0xAA0000);
+  glRecti(180 - 5, midHeight + 100 - 15, 220 + 5, midHeight + 120);
+  //Neck
+  setHexColor(0xFFD3B6);
+  glRecti(180, midHeight + 100, 220, midHeight + 140);
+
+  //Face
+  glRecti(150 + 10, midHeight + 140, 250 - 10, midHeight + 240);
+
+  //Eyes
+  setHexColor(0xffffff);
+  drawFilledCircle(250 - 10 - 20, midHeight + 240 - 40, 13);
+  drawFilledCircle(150 + 10 + 20, midHeight + 240 - 40, 13);
+  setHexColor(0);
+  drawFilledCircle(250 - 10 - 20, midHeight + 240 - 40, 5);
+  drawFilledCircle(150 + 10 + 20, midHeight + 240 - 40, 5);
+
+  //Hair
+  setHexColor(0x542800);
+  glRecti(150 + 10, midHeight + 220, 250 - 10, midHeight + 240);
+
+  //Hat
+  setHexColor(0xB87309);
+  glRecti(150 - 20, midHeight + 230, 250 + 20, midHeight + 240);
+  glRecti(150 + 10, midHeight + 240, 250 - 10, midHeight + 270);
+}
+
 void myDisplay (void) {
 
   glClear(GL_COLOR_BUFFER_BIT);
@@ -189,6 +258,7 @@ void myDisplay (void) {
   glColor3f(1.0, 0.0, 0.0);
   // Start Drwawing
   woodyLowerHalf();
+  woodyUpperHalf();
   // End Drwawing
 
   glFrontFace(GL_CW);
