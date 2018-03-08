@@ -25,7 +25,8 @@ void myInit (void) {
   glClearColor(1.0,1.0,1.0,1.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(0, 640, 0, 480);
+  gluOrtho2D(0, WIDTH, 0, HEIGHT);
+
 }
 
 void drawLine(int x0, int y0, int xf, int yf ) {
@@ -126,6 +127,13 @@ void drawRect(int x0, int y0, int xf, int yf) {
   glEnd();
 }
 
+void drawRectStroke(int x0, int y0, int xf, int yf) {
+  drawLine(x0, y0, xf, y0);
+  drawLine(xf, y0, xf, yf);
+  drawLine(xf, yf, x0, yf);
+  drawLine(x0, yf, x0, y0);
+}
+
 void setHexColor(int color) {
   float r = ((0xFF0000 & color) >> 16) / 255.0;
   float g = ((0x00FF00 & color) >> 8) / 255.0;
@@ -136,6 +144,28 @@ void setHexColor(int color) {
 void drawPolygonCircle(int x, int y, int r) {
   glBegin (GL_POLYGON);
   for(double i = 0.0; i <= 360.0; i+=0.1) {
+    double angle = (i*PI)/180.0;
+    int xi = r*cos(angle) + x;
+    int yi = r*sin(angle) + y;
+    glVertex2i (xi,yi);
+  }
+  glEnd ();
+}
+
+void drawUpperPolygonCircle(int x, int y, int r) {
+  glBegin (GL_POLYGON);
+  for(double i = 0.0; i <= 180.0; i+=0.1) {
+    double angle = (i*PI)/180.0;
+    int xi = r*cos(angle) + x;
+    int yi = r*sin(angle) + y;
+    glVertex2i (xi,yi);
+  }
+  glEnd ();
+}
+
+void drawLowerPolygonCircle(int x, int y, int r) {
+  glBegin (GL_POLYGON);
+  for(double i = 180.0; i <= 360.0; i+=0.1) {
     double angle = (i*PI)/180.0;
     int xi = r*cos(angle) + x;
     int yi = r*sin(angle) + y;
@@ -155,13 +185,12 @@ void drawStar() {
   glVertex2i (480,250);
   glVertex2i (250,20);
   glEnd ();
-  drawRect(85,410,415,90);
 }
 
-void drawSmallStar() {
-  setHexColor(0x0DFF7C);
+void drawSmallStar(int c1, int c2) {
+  setHexColor(c1);
   drawRect(193,306,306,193);
-  setHexColor(0xE8DE3B);
+  setHexColor(c2);
   glBegin (GL_POLYGON);
   glVertex2i (250,330);
   glVertex2i (330,250);
@@ -176,7 +205,7 @@ void drawSmallStar() {
 
 void drawFlower(int r, int p, int xc, int yc) {
   //glBegin (GL_POLYGON);
-  for(double i = 0.0; i <= 360.0; i+=0.1) {
+  for(double i = 0.0; i <= 360.0; i+=0.001) {
     double angle = (i*PI)/180.0;
     int rad = r*cos(p * angle) + r;
     int xi = rad*cos(angle) + xc;
@@ -188,6 +217,27 @@ void drawFlower(int r, int p, int xc, int yc) {
   //glEnd ();
 }
 
+void drawYinYang(int x, int y, int r, int c1, int c2) {
+  setHexColor(c1);
+  drawUpperPolygonCircle(x, y, r);
+
+  setHexColor(c2);
+  drawLowerPolygonCircle(x, y, r);
+
+  setHexColor(c2);
+  drawPolygonCircle(x + r/2, y, r/2);
+
+  setHexColor(c1);
+  drawPolygonCircle(x - r/2, y, r/2);
+
+
+  setHexColor(c1);
+  drawPolygonCircle(x + r/2, y, r/6);
+
+  setHexColor(c2);
+  drawPolygonCircle(x - r/2, y, r/6);
+}
+
 void myDisplay (void) {
 
   glClear(GL_COLOR_BUFFER_BIT);
@@ -195,33 +245,54 @@ void myDisplay (void) {
   glColor3f(1.0, 0.0, 0.0);
   // Start Drwawing
 
-  setHexColor(0x0CFF25);
+  setHexColor(0xCF8000);
   drawPolygonCircle(250,250, 240);
-  setHexColor(0xE8B20C);
+
+  setHexColor(0x825203);
   drawPolygonCircle(250,250, 230);
-  setHexColor(0xFF0000);
+
+  setHexColor(0xCFAB00);
   drawRect(170,465,330,35);
-  setHexColor(0xFF0000);
+  glLineWidth(4.0);
+  setHexColor(0x000000);
+  drawRectStroke(170,465,330,35);
+
+  setHexColor(0xCFAB00);
   drawRect(465,170,35,330);
-  setHexColor(0x0C0DE8);
+  setHexColor(0x000000);
+  drawRectStroke(465,170,35,330);
+
+  setHexColor(0xE5830B);
   drawStar();
-  setHexColor(0x596BFF);
+
+  drawRect(85,410,415,90);
+  setHexColor(0x000000);
+  drawRectStroke(85,410,415,90);
+
+  setHexColor(0xDB2200);
+  drawPolygonCircle(250,250, 185);
+
+  setHexColor(0x777777);
   drawPolygonCircle(250,250, 175);
-  setHexColor(0xFE25FF);
-  drawPolygonCircle(250,250, 165);
-  setHexColor(0xFF6141);
-  drawFlower(82, 8, 250, 250);
-  drawSmallStar();
-  setHexColor(0xFF6141);
+
+  setHexColor(0xCFAB00);
+  drawFlower(88, 10, 250, 250);
+  drawSmallStar(0x006CCF, 0xCF7100);
+
+  setHexColor(0xCFAB00);
   drawPolygonCircle(250,250, 50);
-  setHexColor(0x41FFE8);
-  drawPolygonCircle(250,250, 30);
-  setHexColor(0x0200E8);
-  drawPolygonCircle(250,300, 15);
-  drawPolygonCircle(250,200, 15);
-  drawPolygonCircle(300,250, 15);
-  drawPolygonCircle(200,250, 15);
+
+  //setHexColor(0xDB2200);
+  //drawPolygonCircle(250,250, 30);
+
+  drawYinYang(250,300, 15, 0x000000, 0xFFFFFF);
+  drawYinYang(250,200, 15, 0x000000, 0xFFFFFF);
+  drawYinYang(300,250, 15, 0x000000, 0xFFFFFF);
+  drawYinYang(200,250, 15, 0x000000, 0xFFFFFF);
   // End Drwawing
+
+  drawYinYang(250, 250, 30, 0x000000, 0xFFFFFF);
+
 
   glFrontFace(GL_CW);
   glFlush();
