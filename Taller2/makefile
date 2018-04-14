@@ -1,3 +1,3 @@
 all:
-	g++ introOpenGl.cpp -w -framework OpenGL -framework GLUT;
+	g++ introOpenGl.cpp  -lGL -lGLU -lglut;
 	./a.out;
