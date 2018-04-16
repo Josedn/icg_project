@@ -95,13 +95,99 @@ void drawCarpet() {
   glPopMatrix();
 }
 
+void showImportantPoints() {
+  glColor3f(1.0f, 0.0f, 0.0f); // #FF0000
+  glPushMatrix();
+  glTranslatef(maxX, maxY, minZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+  glColor3f(0.0f, 1.0f, 0.0f); // #00FF00
+  glPushMatrix();
+  glTranslatef(minX, maxY, minZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+  glColor3f(0.0f, 0.0f, 1.0f); // #0000FF
+  glPushMatrix();
+  glTranslatef(minX, maxY, maxZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+  glColor3f(1.0f, 1.0f, 0.0f); // #FFFF00
+  glPushMatrix();
+  glTranslatef(minX, minY, maxZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+  glColor3f(1.0f, 1.0f, 1.0f); // #FFFFFF
+  glPushMatrix();
+  glTranslatef(minX, minY, minZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+
+  glColor3f(0.0f, 1.0f, 1.0f); // #00FFFF
+  glPushMatrix();
+  glTranslatef(maxX, minY, minZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+
+  glColor3f(1.0f, 0.0f, 1.0f); // // #FF00FF
+  glPushMatrix();
+  glTranslatef(maxX, minY, maxZ);
+  glutWireCube(0.5);
+  glPopMatrix();
+
+}
+
+void pyramid()
+{
+  glBegin( GL_TRIANGLES );
+  glVertex3f( 0.0f, 1.f, 0.0f );
+  glVertex3f( -1.0f, -1.0f, 1.0f );
+  glVertex3f( 1.0f, -1.0f, 1.0f);
+
+  glVertex3f( 0.0f, 1.0f, 0.0f);
+  glVertex3f( -1.0f, -1.0f, 1.0f);
+  glVertex3f( 0.0f, -1.0f, -1.0f);
+
+  glVertex3f( 0.0f, 1.0f, 0.0f);
+  glVertex3f( 0.0f, -1.0f, -1.0f);
+  glVertex3f( 1.0f, -1.0f, 1.0f);
+
+  glVertex3f( -1.0f, -1.0f, 1.0f);
+  glVertex3f( 0.0f, -1.0f, -1.0f);
+  glVertex3f( 1.0f, -1.0f, 1.0f);
+  glEnd();
+}
+
 void drawWoody() {
   //Head
   setHexColor(0xc99c9c);
   glPushMatrix();
   glTranslatef(wx, wy, wz);
   glutSolidSphere(0.5, 100, 100);
-  // glutWireTeapot(10);
+  glPopMatrix();
+
+  //Hat
+  setHexColor(0x822816);
+  glPushMatrix();
+  glTranslatef(wx, wy*1.1, wz);
+  glRotatef(90, 1.0, 0, 0);
+  GLUquadricObj *disk1 = gluNewQuadric();
+  gluQuadricDrawStyle (disk1, GLU_FILL);
+  gluDisk (disk1, 0.3, 0.8, 40, 40);
+  glPopMatrix();
+  //Hat
+  setHexColor(0x822816);
+  glPushMatrix();
+  glTranslatef(wx, wy*1.2, wz);
+  glRotatef(90, 1.0, 0, 0);
+  GLUquadricObj *cyl1 = gluNewQuadric();
+  gluQuadricDrawStyle (disk1, GLU_FILL);
+  gluCylinder (cyl1, 0.3, 0.6, 0.4, 20, 20);
   glPopMatrix();
 
   //Neck
@@ -225,51 +311,36 @@ void drawWoody() {
   glutSolidSphere(0.12, 100, 100);
   glPopMatrix();
 
-}
-
-void showImportantPoints() {
-  glColor3f(1.0f, 0.0f, 0.0f); // #FF0000
+  //Left foot
+  setHexColor(0x825216);
   glPushMatrix();
-  glTranslatef(maxX, maxY, minZ);
-  glutWireCube(0.5);
+  glTranslatef(wx, wy/8, wz*1.031);
+  glScalef(1.0, 0.5, 1.0);
+  glutSolidCube(0.3);
+  glPopMatrix();
+  //Left foot
+  setHexColor(0x926226);
+  glPushMatrix();
+  glTranslatef(wx, wy/8, wz*1.031);
+  glScalef(0.2, 0.2, 0.2);
+  glRotatef(-90, 0, 1, 0);
+  pyramid();
   glPopMatrix();
 
-  glColor3f(0.0f, 1.0f, 0.0f); // #00FF00
+  //Right foot
+  setHexColor(0x825216);
   glPushMatrix();
-  glTranslatef(minX, maxY, minZ);
-  glutWireCube(0.5);
+  glTranslatef(wx, wy/8, wz/1.031);
+  glScalef(1.0, 0.5, 1.0);
+  glutSolidCube(0.3);
   glPopMatrix();
-
-  glColor3f(0.0f, 0.0f, 1.0f); // #0000FF
+  //Right foot
+  setHexColor(0x926226);
   glPushMatrix();
-  glTranslatef(minX, maxY, maxZ);
-  glutWireCube(0.5);
-  glPopMatrix();
-
-  glColor3f(1.0f, 1.0f, 0.0f); // #FFFF00
-  glPushMatrix();
-  glTranslatef(minX, minY, maxZ);
-  glutWireCube(0.5);
-  glPopMatrix();
-
-  glColor3f(1.0f, 1.0f, 1.0f); // #FFFFFF
-  glPushMatrix();
-  glTranslatef(minX, minY, minZ);
-  glutWireCube(0.5);
-  glPopMatrix();
-
-
-  glColor3f(0.0f, 1.0f, 1.0f); // #00FFFF
-  glPushMatrix();
-  glTranslatef(maxX, minY, minZ);
-  glutWireCube(0.5);
-  glPopMatrix();
-
-
-  glColor3f(1.0f, 0.0f, 1.0f); // // #FF00FF
-  glPushMatrix();
-  glTranslatef(maxX, minY, maxZ);
-  glutWireCube(0.5);
+  glTranslatef(wx, wy/8, wz/1.031);
+  glScalef(0.2, 0.2, 0.2);
+  glRotatef(-90, 0, 1, 0);
+  pyramid();
   glPopMatrix();
 
 }
@@ -278,14 +349,25 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    //float eyeX = (maxX - minX)/2.0, eyeY = 8.0f, eyeZ = 25.0f, centerX = (maxX - minX)/2.0, centerY = 0.0f, centerZ = 0.0f, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
+     float eyeX = (maxX - minX)/2.0, eyeY = 8.0f, eyeZ = 25.0f, centerX = (maxX - minX)/2.0, centerY = 0.0f, centerZ = 0.0f, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
+     if ((int)anguloRotacionY % 40 <= 9) {
+
+     } else if ((int)anguloRotacionY % 40 <= 19) {
+       eyeX = (maxX - minX)/2.0, eyeY = 30.0f, eyeZ = (maxZ - minZ)/2.0, centerX = (maxX - minX)/2.0, centerY = 0.0f, centerZ = (maxZ - minZ)/2.0, upX = 0.0f, upY = 0.0f, upZ = 1.0f;
+     }
+     else if ((int)anguloRotacionY % 40 <= 29) {
+       eyeX = (maxX - minX)/2.0, eyeY = 3.5, eyeZ = -5.0, centerX = wx, centerY = wy, centerZ = wz, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
+     }
+     else if ((int)anguloRotacionY % 40 <= 39) {
+       eyeX = 15.0, eyeY = 3.5f, eyeZ = (maxZ - minZ)/2.0, centerX = wx, centerY = wy, centerZ = wz, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
+     }
     // float eyeX = (maxX - minX)/2.0, eyeY = 30.0f, eyeZ = (maxZ - minZ)/2.0, centerX = (maxX - minX)/2.0, centerY = 0.0f, centerZ = (maxZ - minZ)/2.0, upX = 0.0f, upY = 0.0f, upZ = 1.0f;
-    //float eyeX = (maxX - minX)/2.0, eyeY = 3.5, eyeZ = 25.0, centerX = wx, centerY = wy, centerZ = wz, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
-    float eyeX = 10.0, eyeY = 3.5f, eyeZ = (maxZ - minZ)/2.0, centerX = wx, centerY = wy, centerZ = wz, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
+    // float eyeX = (maxX - minX)/2.0, eyeY = 3.5, eyeZ = -5.0, centerX = wx, centerY = wy, centerZ = wz, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
+    // float eyeX = 15.0, eyeY = 3.5f, eyeZ = (maxZ - minZ)/2.0, centerX = wx, centerY = wy, centerZ = wz, upX = 0.0f, upY = 1.0f, upZ = 0.0f;
     gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 
-    // glRotatef(anguloRotacionX, 1.0f, 0.0f, 0.0f);
-    // glRotatef(anguloRotacionY, 0.0f, 1.0f, 0.0f);
+     glRotatef(anguloRotacionX, 1.0f, 0.0f, 0.0f);
+     glRotatef(anguloRotacionY, 0.0f, 1.0f, 0.0f);
 
     showImportantPoints();
 

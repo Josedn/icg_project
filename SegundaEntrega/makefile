@@ -1,3 +1,3 @@
 all:
-	g++ -w main.cpp -framework OpenGL -lglut;
+	g++ -w main.cpp -lGL -lGLU -lglut;
 	./a.out;
