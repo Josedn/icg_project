@@ -59,6 +59,7 @@ public:
     this->rotationIncrement = rotationIncrement;
     this->rotationX = rotationX;
     this->rotationY = rotationY;
+    this->rotationZ = rotationZ;
     this->scaleX = scaleX;
     this->scaleY = scaleY;
     this->scaleZ = scaleZ;
@@ -92,7 +93,7 @@ public:
     Point p = orbit->getPoint(this->orbitCurrentAngle);
     glTranslatef(p.x, p.y, p.z);
 
-    glRotatef(rotationCurrentAngle, 1.0f, 0.0f, 0.0f);
+    glRotatef(rotationCurrentAngle, rotationX, rotationY, rotationZ);
     glScalef(scaleX, scaleY, scaleZ);
 
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -177,12 +178,14 @@ int main(int argc, char **argv)
     glutCreateWindow("Sistema solar");
     init();
 
-    GLfloat orbitTranslationIncrement = 0.01, rotationIncrement = 0.5, rotationX = 1.0, rotationY = 0.0, rotationZ = 0.0, scaleX = 1.0, scaleY = 1.0, scaleZ = 1.0, translateX = 0.0, translateY = 0.0, translateZ = 0.0;
-    Ellipse *sunOrbit = new Ellipse(1.0, 2.0);
+    GLfloat orbitTranslationIncrement = 0.01, rotationIncrement = 0.5, rotationX = 0.0, rotationY = 1.0, rotationZ = 0.0, scaleX = 1.0, scaleY = 1.0, scaleZ = 1.0, translateX = 0.0, translateY = 0.0, translateZ = 0.0;
+    Ellipse *sunOrbit = new Ellipse(1.5, 2.0);
     sun = new SolarElement(orbitTranslationIncrement, rotationIncrement, rotationX, rotationY, rotationZ, scaleX, scaleY, scaleZ, translateX, translateY, translateZ, sunOrbit);
 
     SolarElement *moon = new SolarElement(orbitTranslationIncrement, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, sunOrbit);
+    moon->appendChild(new SolarElement(orbitTranslationIncrement, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, sunOrbit));
     sun->appendChild(moon);
+
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutIdleFunc(idle);
