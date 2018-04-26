@@ -59,7 +59,7 @@ void setHexColor(int color) {
 void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom, int colBack) {
   glBegin(GL_QUADS);
 	// top
-	setHexColor(colTop)
+	setHexColor(colTop);
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	glVertex3f(-0.5f, 0.5f, 0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
@@ -70,7 +70,7 @@ void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom
 
 	glBegin(GL_QUADS);
 	// front
-	setHexColor(colFront)
+	setHexColor(colFront);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(0.5f, -0.5f, 0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
@@ -81,7 +81,7 @@ void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom
 
 	glBegin(GL_QUADS);
 	// right
-	setHexColor(colRight)
+	setHexColor(colRight);
 	glNormal3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(0.5f, 0.5f, -0.5f);
 	glVertex3f(0.5f, 0.5f, 0.5f);
@@ -92,7 +92,7 @@ void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom
 
 	glBegin(GL_QUADS);
 	// left
-	setHexColor(colLeft)
+	setHexColor(colLeft);
 	glNormal3f(-1.0f, 0.0f, 0.0f);
 	glVertex3f(-0.5f, -0.5f, 0.5f);
 	glVertex3f(-0.5f, 0.5f, 0.5f);
@@ -103,7 +103,7 @@ void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom
 
 	glBegin(GL_QUADS);
 	// bottom
-	setHexColor(colBottom)
+	setHexColor(colBottom);
 	glNormal3f(0.0f, -1.0f, 0.0f);
 	glVertex3f(0.5f, -0.5f, 0.5f);
 	glVertex3f(-0.5f, -0.5f, 0.5f);
@@ -114,7 +114,7 @@ void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom
 
 	glBegin(GL_QUADS);
 	// back
-	setHexColor(colBack)
+	setHexColor(colBack);
 	glNormal3f(0.0f, 0.0f, -1.0f);
 	glVertex3f(0.5f, 0.5f, -0.5f);
 	glVertex3f(0.5f, -0.5f, -0.5f);
@@ -124,25 +124,25 @@ void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom
 	glEnd();
 }
 
-void drawPiramidSquareBase(int colA, int colB, int colC, int colD) {
+void drawPyramidSquareBase(int colA, int colB, int colC, int colD) {
   glBegin(GL_TRIANGLES);
 
-      setHexColor(colA)
+      setHexColor(colA);
       glVertex3f( 0.0f, 1.0f, 0.0f);
       glVertex3f(-1.0f, -1.0f, 1.0f);
       glVertex3f(1.0f, -1.0f, 1.0f);
 
-      setHexColor(colB)
+      setHexColor(colB);
       glVertex3f(0.0f, 1.0f, 0.0f);
       glVertex3f(1.0f, -1.0f, 1.0f);
       glVertex3f(1.0f, -1.0f, -1.0f);
 
-      setHexColor(colC)
+      setHexColor(colC);
       glVertex3f(0.0f, 1.0f, 0.0f);
       glVertex3f(1.0f, -1.0f, -1.0f);
       glVertex3f(-1.0f, -1.0f, -1.0f);
 
-      setHexColor(colD)
+      setHexColor(colD);
       glVertex3f( 0.0f, 1.0f, 0.0f);
       glVertex3f(-1.0f,-1.0f,-1.0f);
       glVertex3f(-1.0f,-1.0f, 1.0f);
@@ -228,12 +228,14 @@ public:
   Ellipse *orbit;
   GLfloat orbitCurrentAngle, orbitTranslationIncrement;
   GLfloat rotationCurrentAngle, rotationIncrement, rotationX, rotationY, rotationZ;
+  GLfloat orbitAngle, orbitRotationX, orbitRotationY, orbitRotationZ;
   GLfloat scaleX, scaleY, scaleZ;
   GLfloat translateX, translateY, translateZ;
+  int type;
 
-  SolarElement(GLfloat orbitTranslationIncrement, GLfloat rotationIncrement, GLfloat rotationX, GLfloat rotationY, GLfloat rotationZ, GLfloat scaleX, GLfloat scaleY, GLfloat scaleZ, GLfloat translateX, GLfloat translateY, GLfloat translateZ, Ellipse *orbit) {
+  SolarElement(GLfloat orbitTranslationIncrement, GLfloat orbitCurrentAngle, GLfloat rotationIncrement, GLfloat rotationX, GLfloat rotationY, GLfloat rotationZ, GLfloat scaleX, GLfloat scaleY, GLfloat scaleZ, GLfloat translateX, GLfloat translateY, GLfloat translateZ, Ellipse *orbit, GLfloat orbiteAngle, GLfloat orbitRotationX, GLfloat orbitRotationY, GLfloat orbitRotationZ, int type) {
     this->rotationCurrentAngle = 0.0;
-    this->orbitCurrentAngle = 0.0;
+    this->orbitCurrentAngle = orbitCurrentAngle;
     this->orbitTranslationIncrement = orbitTranslationIncrement;
     this->rotationIncrement = rotationIncrement;
     this->rotationX = rotationX;
@@ -246,6 +248,11 @@ public:
     this->translateY = translateY;
     this->translateZ = translateZ;
     this->orbit = orbit;
+    this->orbitAngle = orbiteAngle;
+    this->orbitRotationX = orbitRotationX;
+    this->orbitRotationY = orbitRotationY;
+    this->orbitRotationZ = orbitRotationZ;
+    this->type = type;
   }
 
   void actualTick(GLfloat delta) {
@@ -268,21 +275,33 @@ public:
 
 
   void actualDraw() {
+    glRotatef(orbitAngle, orbitRotationX, orbitRotationY, orbitRotationZ);
     glTranslatef(translateX, translateY, translateZ);
-    orbit->draw();
-    Point p = orbit->getPoint(this->orbitCurrentAngle);
-    glTranslatef(p.x, p.y, p.z);
+    if (orbit != NULL) {
+      orbit->draw();
+      Point p = orbit->getPoint(this->orbitCurrentAngle);
+      glTranslatef(p.x, p.y, p.z);
+    }
 
     glRotatef(rotationCurrentAngle, rotationX, rotationY, rotationZ);
     glScalef(scaleX, scaleY, scaleZ);
 
     glColor3f(1.0f, 1.0f, 1.0f);
-    //glutWireTeapot(1.0f);
-    //glutWireCube(1.5f);
-    //drawCube();
-    //drawPiramidSquareBase();
-    //tetrahedron();
-    octahedron();
+
+    switch (type) {
+      case 0:
+        octahedron();
+      break;
+      case 1:
+        tetrahedron();
+      break;
+      case 2:
+        drawPyramidSquareBase(0xFF0000, 0x0000FF, 0x00FFFF, 0xFFFF00);
+      break;
+      case 3:
+        drawCube(0x00FF00, 0xFF00FF, 0xFF0000, 0x0000FF, 0x00FFFF, 0xFFFF00);
+      break;
+    }
   }
 
   void draw() {
@@ -356,19 +375,38 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(ancho, alto);
     glutCreateWindow("Sistema solar");
     init();
 
     GLfloat orbitTranslationIncrement = 0.01, rotationIncrement = 0.5, rotationX = 0.0, rotationY = 1.0, rotationZ = 0.0, scaleX = 1.0, scaleY = 1.0, scaleZ = 1.0, translateX = 0.0, translateY = 0.0, translateZ = 0.0;
-    Ellipse *sunOrbit = new Ellipse(1.5, 2.0);
-    sun = new SolarElement(orbitTranslationIncrement, rotationIncrement, rotationX, rotationY, rotationZ, scaleX, scaleY, scaleZ, translateX, translateY, translateZ, sunOrbit);
 
-    SolarElement *moon = new SolarElement(orbitTranslationIncrement, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, sunOrbit);
-    moon->appendChild(new SolarElement(orbitTranslationIncrement, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, sunOrbit));
-    sun->appendChild(moon);
+    sun = new SolarElement(orbitTranslationIncrement, 0, rotationIncrement, rotationX, rotationY, rotationZ, scaleX, scaleY, scaleZ, translateX, translateY, translateZ, NULL, 0.0, 0.0, 0.0, 0.0, 3);
+
+    SolarElement *planet1 = new SolarElement(orbitTranslationIncrement, 1.5, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(1.5, 2.0), 90.0, 0.0, 0.0, 1.0, 1);
+    planet1->appendChild(new SolarElement(orbitTranslationIncrement, 0, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+
+    SolarElement *planet2 = new SolarElement(orbitTranslationIncrement, 0, rotationIncrement, 1.0, rotationY, rotationZ, scaleX / 1.5, scaleY / 1.5, scaleZ / 1.5, translateX, translateY, translateZ, new Ellipse(3.5, 2.0), 45.0, 1.0, 0.0, 0.0, 2);
+    planet2->appendChild(new SolarElement(orbitTranslationIncrement, 0, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+    planet2->appendChild(new SolarElement(orbitTranslationIncrement, PI/2, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+
+    SolarElement *planet3 = new SolarElement(0.02, 1.2, rotationIncrement, 1.0, rotationY, rotationZ, scaleX / 1.5, scaleY / 1.5, scaleZ / 1.5, translateX, translateY, translateZ, new Ellipse(4.0, 3.0), 75.0, 1.0, 0.0, 0.0, 3);
+    planet3->appendChild(new SolarElement(orbitTranslationIncrement, 0, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+    planet3->appendChild(new SolarElement(orbitTranslationIncrement, PI/2, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+    planet3->appendChild(new SolarElement(orbitTranslationIncrement, PI/3, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+
+    SolarElement *planet4 = new SolarElement(0.02, 1.5, rotationIncrement, 1.0, rotationY, rotationZ, scaleX / 1.5, scaleY / 1.5, scaleZ / 1.5, translateX, translateY, translateZ, new Ellipse(5.0, 4.0), 120.0, 1.0, 0.0, 0.0, 1);
+    planet4->appendChild(new SolarElement(orbitTranslationIncrement, 0, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+    planet4->appendChild(new SolarElement(orbitTranslationIncrement, PI/2, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+    planet4->appendChild(new SolarElement(orbitTranslationIncrement, PI/3, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+    planet4->appendChild(new SolarElement(orbitTranslationIncrement, PI/4, rotationIncrement, rotationX, rotationY, rotationZ, scaleX / 2, scaleY / 2, scaleZ / 2, translateX, translateY, translateZ, new Ellipse(2.0, 2.0), 0.0, 0.0, 0.0, 0.0, 0));
+
+    sun->appendChild(planet1);
+    sun->appendChild(planet2);
+    sun->appendChild(planet3);
+    sun->appendChild(planet4);
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
