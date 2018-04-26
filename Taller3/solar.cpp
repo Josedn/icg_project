@@ -1,6 +1,12 @@
-//#include <GL/glut.h>
+//#include <GL/glut.h> g++ -w main.cpp -framework GLUT -framework OpenGL
 #include <GL/freeglut.h>
+#if defined(__APPLE__)
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
 #include <GL/gl.h>
+#include <GL/glu.h>
+#endif
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -42,6 +48,179 @@ struct Ellipse {
   }
 
 };
+
+void setHexColor(int color) {
+  float r = ((0xFF0000 & color) >> 16) / 255.0;
+  float g = ((0x00FF00 & color) >> 8) / 255.0;
+  float b = (0x0000FF & color) / 255.0;
+  glColor3f(r, g, b);
+}
+
+void drawCube(int colTop, int colFront, int colRight, int colLeft, int colBottom, int colBack) {
+  glBegin(GL_QUADS);
+	// top
+	setHexColor(colTop)
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.5f, 0.5f, 0.5f);
+	glVertex3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(0.5f, 0.5f, -0.5f);
+	glVertex3f(-0.5f, 0.5f, -0.5f);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// front
+	setHexColor(colFront)
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(0.5f, -0.5f, 0.5f);
+	glVertex3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(-0.5f, 0.5f, 0.5f);
+	glVertex3f(-0.5f, -0.5f, 0.5f);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// right
+	setHexColor(colRight)
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(0.5f, 0.5f, -0.5f);
+	glVertex3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(0.5f, -0.5f, 0.5f);
+	glVertex3f(0.5f, -0.5f, -0.5f);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// left
+	setHexColor(colLeft)
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(-0.5f, -0.5f, 0.5f);
+	glVertex3f(-0.5f, 0.5f, 0.5f);
+	glVertex3f(-0.5f, 0.5f, -0.5f);
+	glVertex3f(-0.5f, -0.5f, -0.5f);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// bottom
+	setHexColor(colBottom)
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(0.5f, -0.5f, 0.5f);
+	glVertex3f(-0.5f, -0.5f, 0.5f);
+	glVertex3f(-0.5f, -0.5f, -0.5f);
+	glVertex3f(0.5f, -0.5f, -0.5f);
+
+	glEnd();
+
+	glBegin(GL_QUADS);
+	// back
+	setHexColor(colBack)
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(0.5f, 0.5f, -0.5f);
+	glVertex3f(0.5f, -0.5f, -0.5f);
+	glVertex3f(-0.5f, -0.5f, -0.5f);
+	glVertex3f(-0.5f, 0.5f, -0.5f);
+
+	glEnd();
+}
+
+void drawPiramidSquareBase(int colA, int colB, int colC, int colD) {
+  glBegin(GL_TRIANGLES);
+
+      setHexColor(colA)
+      glVertex3f( 0.0f, 1.0f, 0.0f);
+      glVertex3f(-1.0f, -1.0f, 1.0f);
+      glVertex3f(1.0f, -1.0f, 1.0f);
+
+      setHexColor(colB)
+      glVertex3f(0.0f, 1.0f, 0.0f);
+      glVertex3f(1.0f, -1.0f, 1.0f);
+      glVertex3f(1.0f, -1.0f, -1.0f);
+
+      setHexColor(colC)
+      glVertex3f(0.0f, 1.0f, 0.0f);
+      glVertex3f(1.0f, -1.0f, -1.0f);
+      glVertex3f(-1.0f, -1.0f, -1.0f);
+
+      setHexColor(colD)
+      glVertex3f( 0.0f, 1.0f, 0.0f);
+      glVertex3f(-1.0f,-1.0f,-1.0f);
+      glVertex3f(-1.0f,-1.0f, 1.0f);
+   glEnd();
+}
+
+// TODO - Translate to origin.
+void tetrahedron() {
+  glBegin(GL_TRIANGLES);
+
+      glColor3f(1.0f, 0.0f, 0.0f);
+      glVertex3f(0.0f, 0.0f, 1.0f);
+      glVertex3f(0.0f, 0.0f, 0.0f);
+      glVertex3f(1.0f, 0.0f, 0.5f);
+
+      glColor3f(0.0f, 0.0f, 1.0f);
+      glVertex3f(0.0f, 0.0f, 1.0f);
+      glVertex3f(0.0f, 0.0f, 0.0f);
+      glVertex3f(0.5f, 1.0f, 0.5f);
+
+      glColor3f(0.0f, 1.0f, 0.0f);
+      glVertex3f(0.0f, 0.0f, 0.0f);
+      glVertex3f(1.0f, 0.0f, 0.5f);
+      glVertex3f(0.5f, 1.0f, 0.5f);
+
+      glColor3f(1.0f,1.0f,0.0f);
+      glVertex3f(0.0f, 0.0f, 1.0f);
+      glVertex3f(1.0f, 0.0f, 0.5f);
+      glVertex3f(0.5f, 1.0f, 0.5f);
+   glEnd();
+}
+
+void octahedron() {
+  glBegin(GL_TRIANGLES);
+
+      glColor3f(1.0f, 0.0f, 0.0f);
+      glVertex3f(0.0f, 0.5f, 0.0f);
+      glVertex3f(-1.0f, -1.0f, 1.0f);
+      glVertex3f(1.0f, -1.0f, 1.0f);
+
+      glColor3f(0.0f, 0.0f, 1.0f);
+      glVertex3f(0.0f, 0.5f, 0.0f);
+      glVertex3f(1.0f, -1.0f, 1.0f);
+      glVertex3f(1.0f, -1.0f, -1.0f);
+
+      glColor3f(0.0f, 1.0f, 0.0f);
+      glVertex3f(0.0f, 0.5f, 0.0f);
+      glVertex3f(1.0f, -1.0f, -1.0f);
+      glVertex3f(-1.0f, -1.0f, -1.0f);
+
+      glColor3f(1.0f,1.0f,0.0f);
+      glVertex3f(0.0f, 0.5f, 0.0f);
+      glVertex3f(-1.0f,-1.0f,-1.0f);
+      glVertex3f(-1.0f,-1.0f, 1.0f);
+   glEnd();
+   glBegin(GL_TRIANGLES);
+
+       glColor3f(0.0f, 0.0f, 1.0f);
+       glVertex3f(0.0f, -2.5f, 0.0f);
+       glVertex3f(-1.0f, -1.0f, 1.0f);
+       glVertex3f(1.0f, -1.0f, 1.0f);
+
+       glColor3f(0.0f, 1.0f, 1.0f);
+       glVertex3f(0.0f, -2.5f, 0.0f);
+       glVertex3f(1.0f, -1.0f, 1.0f);
+       glVertex3f(1.0f, -1.0f, -1.0f);
+
+       glColor3f(1.0f, 1.0f, 0.0f);
+       glVertex3f(0.0f, -2.5f, 0.0f);
+       glVertex3f(1.0f, -1.0f, -1.0f);
+       glVertex3f(-1.0f, -1.0f, -1.0f);
+
+       glColor3f(1.0f,0.0f,1.0f);
+       glVertex3f(0.0f, -2.5f, 0.0f);
+       glVertex3f(-1.0f,-1.0f,-1.0f);
+       glVertex3f(-1.0f,-1.0f, 1.0f);
+    glEnd();
+}
 
 class SolarElement {
 public:
@@ -87,6 +266,7 @@ public:
     children.push_back(child);
   }
 
+
   void actualDraw() {
     glTranslatef(translateX, translateY, translateZ);
     orbit->draw();
@@ -97,8 +277,12 @@ public:
     glScalef(scaleX, scaleY, scaleZ);
 
     glColor3f(1.0f, 1.0f, 1.0f);
-    glutWireTeapot(1.0f);
-    glutWireCube(1.5f);
+    //glutWireTeapot(1.0f);
+    //glutWireCube(1.5f);
+    //drawCube();
+    //drawPiramidSquareBase();
+    //tetrahedron();
+    octahedron();
   }
 
   void draw() {
@@ -172,7 +356,7 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(ancho, alto);
     glutCreateWindow("Sistema solar");
